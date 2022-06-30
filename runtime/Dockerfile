@@ -1,5 +1,5 @@
-FROM denismakogon/gocv-alpine:4.0.1-buildstage as build-stage
-FROM docker.pkg.github.com/zak905/ffmpeg-alpine/ffmpeg-alpine:4.0-golang-1.14
+FROM ghcr.io/zak905/gocv-alpine/4.0.1-buildstage-go1.16 as build-stage
+FROM ghcr.io/zak905/ffmpeg-alpine/ffmpeg-alpine:4.0-golang-1.16
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 

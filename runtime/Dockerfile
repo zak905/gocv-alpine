@@ -1,12 +1,11 @@
-FROM ghcr.io/zak905/gocv-alpine/4.0.1-buildstage-go1.16 as build-stage
-FROM ghcr.io/zak905/ffmpeg-alpine/ffmpeg-alpine:4.0-golang-1.16
+FROM ghcr.io/zak905/gocv-alpine/4.3.0-buildstage-go1.17
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
 # OpenCV 4.0.1 shared objects from build-stage
-COPY --from=build-stage /usr/local/lib64 /usr/local/lib64
-COPY --from=build-stage /usr/local/lib64/pkgconfig/opencv4.pc /usr/local/lib64/pkgconfig/opencv4.pc
-COPY --from=build-stage /usr/local/include/opencv4/opencv2 /usr/local/include/opencv4/opencv2
+#COPY --from=build-stage /usr/local/lib64 /usr/local/lib64
+#COPY --from=build-stage /usr/local/lib64/pkgconfig/opencv4.pc /usr/local/lib64/pkgconfig/opencv4.pc
+#COPY --from=build-stage /usr/local/include/opencv4/opencv2 /usr/local/include/opencv4/opencv2
 
 ENV PKG="libstdc++ \
          ca-certificates \

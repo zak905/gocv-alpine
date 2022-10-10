@@ -1,4 +1,4 @@
-FROM ghcr.io/zak905/golang/golang:1.17-alpine3.10
+FROM ghcr.io/zak905/golang/golang:1.19.2-alpine3.10
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 

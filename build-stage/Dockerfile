@@ -1,8 +1,8 @@
-FROM ghcr.io/zak905/golang/golang:1.19.2-alpine3.10
+FROM golang:1.22.4-alpine3.20
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
-ENV OPENCV_VERSION=4.3.0
+ENV OPENCV_VERSION=4.10.0
 ENV BUILD="ca-certificates \
          git \
          build-base \
@@ -19,7 +19,7 @@ ENV BUILD="ca-certificates \
          libwebp-dev \
          tiff \
          libavc1394 \
-         jasper-libs \
+         jasper \
          openblas \
          libgphoto2 \
          gstreamer \
@@ -34,14 +34,15 @@ ENV DEV="clang clang-dev cmake pkgconf \
 RUN apk update && \
     apk add --no-cache ${BUILD} ${DEV}
 
-RUN mkdir /tmp/opencv && \
-    cd /tmp/opencv && \
-    wget -O opencv.zip https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
-    unzip opencv.zip && \
-    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
-    unzip opencv_contrib.zip && \
-    mkdir /tmp/opencv/opencv-${OPENCV_VERSION}/build && cd /tmp/opencv/opencv-${OPENCV_VERSION}/build && \
-    cmake \
+RUN mkdir /tmp/opencv
+WORKDIR /tmp/opencv
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+RUN unzip opencv.zip
+RUN wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip
+RUN unzip opencv_contrib.zip
+RUN mkdir opencv-${OPENCV_VERSION}/build
+WORKDIR /tmp/opencv/opencv-${OPENCV_VERSION}/build
+RUN cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv/opencv_contrib-${OPENCV_VERSION}/modules \
@@ -57,10 +58,9 @@ RUN mkdir /tmp/opencv && \
     -D BUILD_opencv_python=NO \
     -D BUILD_opencv_python2=NO \
     -D BUILD_opencv_python3=NO \
-    -D OPENCV_GENERATE_PKGCONFIG=YES .. && \
-    make -j4 && \
-    make install && \
-    cd && rm -rf /tmp/opencv
+    -D OPENCV_GENERATE_PKGCONFIG=YES ..
+RUN make -j8 && make install
+RUN cd && rm -rf /tmp/opencv
 
 RUN apk del ${DEV_DEPS} && \
     rm -rf /var/cache/apk/*

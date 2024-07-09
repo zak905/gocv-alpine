@@ -2,15 +2,14 @@
 
 ## What's in build-stage image?
 
- - Alpine 3.7
- - FFMPEG 4.0
- - Golang 1.10
- - OpenCV 4.0.1
- - OpenCV 4.0.1 contrib packages required by GoCV
+ - Alpine 3.20
+ - Golang 1.22
+ - OpenCV 4.10.0
+ - OpenCV 4.10.0 contrib packages required by GoCV
 
 ## What's in runtime image?
 
- - Alpine 3.7
+ - Alpine 3.20
  - Whatever you need there
 
 ## Purpose
